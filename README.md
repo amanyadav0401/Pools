@@ -3,7 +3,7 @@
 
 Project Objective :
 Pools based on Syrup pools is created to take a further step on staking and stake the Cake tokens provided by the yield farming smart contracts. 
-Here user can stake the cake token (Niob token in this case) and get the rewards in the form of different tokens that are pooled already in the Syrup Pools.
+Here user can stake the cake token and get the rewards in the form of different tokens that are pooled already in the Syrup Pools.
 The Syrup pool smart contract is deployed by following steps - 
 
     1. Deploy SyrupPoolsFactory contract – Every pool is created by the factory that initializes a smart contract where user can stake its cake token to get a specific reward token.
