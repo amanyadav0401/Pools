@@ -7,7 +7,6 @@ import "./SmartChefInitializable.sol";
 
 contract SmartChefFactory is Ownable {
     event NewSmartChefContract(address indexed smartChef);
-    address public smartchefaddress;
 
     constructor() {
         //
@@ -28,6 +27,10 @@ contract SmartChefFactory is Ownable {
      * @param _admin: admin address with ownership
      * @return address of new smart chef contract
      */
+    uint public totalPools;
+    mapping(uint=>address) public poolAddresses;
+
+
     function deployPool(
         IERC20Metadata _stakedToken,
         IERC20Metadata _rewardToken,
@@ -70,6 +73,7 @@ contract SmartChefFactory is Ownable {
         );
 
         emit NewSmartChefContract(smartChefAddress);
-        smartchefaddress=smartChefAddress;
+        totalPools++;
+        poolAddresses[totalPools]=smartChefAddress;
     }
 }

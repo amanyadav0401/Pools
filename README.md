@@ -1,47 +1,46 @@
-# Pools
+# Advanced Sample Hardhat Project
 
+This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
 
-Project Objective :
-Pools based on Syrup pools is created to take a further step on staking and stake the Cake tokens provided by the yield farming smart contracts. 
-Here user can stake the cake token and get the rewards in the form of different tokens that are pooled already in the Syrup Pools.
-The Syrup pool smart contract is deployed by following steps - 
+The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
 
-    1. Deploy SyrupPoolsFactory contract – Every pool is created by the factory that initializes a smart contract where user can stake its cake token to get a specific reward token.
-       The SyrupPoolsFactory contract have following functions -  
-    • deployPool  -  This function initializes the pool for a specific reward token.
-         It requires following feilds – 1. Staked token address.
-                                                        2. Reward token address.
-                                                        3. Reward genereated per block.
-                                                        4. Start block. (When reward should start to distribute.)
-                                                        5. Bonus end block. (When reward distribution stops.)
-                                                        6. Pool limit per user. (no. cake tokens user can stake.)
-                                                        7. Number blocks for user limit. (Until a user can get.... ....                                                   reward.)
-                                                        8. Pancake Profile.(Profile contract for the pool.)
-                                                        9. Pancake profile is requested. (Whether user shouold.. .........................................              be registered prior in pancake profile or not.)
-                                                       10. Pancake profile threshold points. (Number of users.. ...............................................         that can enter the staking.)
-                                                       11. Admin address.
-       
-    1. 
-    2. Deploy SyrupProfile contract -  Every pool will have a different profile where predefined users can be added in different teams. Syrup profile is initially used in limiting the users from entering the staking.
-       After syrupProfile is deployed a team is needed to be created in order to initiate the SyrupPool to start staking of cakes and generating rewards. The syrupProfile address is used to deploy the pool by SyrupFactory contract.
+Try running some of the following tasks:
 
+```shell
+npx hardhat accounts
+npx hardhat compile
+npx hardhat clean
+npx hardhat test
+npx hardhat node
+npx hardhat help
+REPORT_GAS=true npx hardhat test
+npx hardhat coverage
+npx hardhat run scripts/deploy.ts
+TS_NODE_FILES=true npx ts-node scripts/deploy.ts
+npx eslint '**/*.{js,ts}'
+npx eslint '**/*.{js,ts}' --fix
+npx prettier '**/*.{json,sol,md}' --check
+npx prettier '**/*.{json,sol,md}' --write
+npx solhint 'contracts/**/*.sol'
+npx solhint 'contracts/**/*.sol' --fix
+```
 
-     3.    DeployPool using SyrupPoolsFactory.
+# Etherscan verification
 
-      
-4.  Create an istance for SyrupPoolInitializable from the address emitted by the deploy pool transaction.
+To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
 
-5. The contract SyrupPoolInitializable have following functions -
-    • initialize -Used to initialize the pool for the staking and reward distribution. SyrupPools factory initialize the pool at the time of pool deployment.
-    • deposit – Used to deposit the cake token by the user. This function also distribute rewards by the second deposit transaction.
-    • withdraw – Used to withdraw the cake deposited and the reward generated.
-    • emergencyWithdraw – Used to withdraw the deposited cake before the reward distribution ends, it stops the reward distribution for the user in future.
-    • emergencyRewardWithdraw – Used to stop rewards and can be called by the owner.
-    • recoverToken – Allow the owner to recover token sent to the contract by mistake.
-    • stopReward – Stops the reward distribution immediately.
-    • updatePoolLimitPerUser – Updates the user limit for cake token staking before the pool has started.
-    • updateRewardPerBlock – Updates the reward distributed per block before the pool has started.
-    • updateStartAndEndBlocks – Updates the start and end blok of reward distribution for pool before the pool has started.
-    • updateProfileAndThresholdPointsRequirement. 
-    • pendingReward – Returns the pending reward for the user.
-    • hasUserLimit  - returns boolean value for whether there is a user block limit or not.
+In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
+
+```shell
+hardhat run --network ropsten scripts/deploy.ts
+```
+
+Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+
+```shell
+npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+```
+
+# Performance optimizations
+
+For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
